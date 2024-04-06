@@ -28,15 +28,15 @@ class GameSprite(sprite.Sprite):
 class Player(GameSprite):
     def updateL(self):
         keys_pressed = key.get_pressed()
-        if keys_pressed[K_p] and self.rect.y > 5:
-            self.rect.y -= self.speed
-        if keys_pressed[K_l] and self.rect.y < 450:
-            self.rect.y += self.speed
-    def updateR(self):
-        keys_pressed = key.get_pressed()
         if keys_pressed[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
         if keys_pressed[K_s] and self.rect.y < 450:
+            self.rect.y += self.speed
+    def updateR(self):
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_p] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys_pressed[K_l] and self.rect.y < 450:
             self.rect.y += self.speed
     
 
@@ -44,7 +44,7 @@ class Player(GameSprite):
 
 
             
-
+m_p = GameSprite('ball.png', 350, 250, 30, 30, 3)
 l_p = Player('raketka.png', 0, 200, 50, 150, 4)
 r_p = Player('raketka.png', 650, 200, 50, 150, 4)
 
@@ -60,7 +60,8 @@ finich = False
 
 
 
-
+speed_x = 3
+speed_y = 3
 lost = 0
 score = 0
 clock = time.Clock()
@@ -76,6 +77,15 @@ while game:
             if num_fire >= 5 and realding == False:
                 last_time = timer()
                 realding = True'''
+    m_p.rect.x += speed_x
+    m_p.rect.y += speed_y
+
+    if m_p.rect.y < 0 or m_p.rect.y > 470:
+        speed_y *= -1
+    if sprite.collide_rect(l_p, m_p) or sprite.collide_rect(r_p, m_p):
+        speed_x *= -1
+        speed_y *= -1
+    
 
 
     my_win.blit(fon, (0, 0))
@@ -83,6 +93,8 @@ while game:
     r_p.updateR()
     l_p.reset()
     r_p.reset()
-    
+    m_p.update()
+    m_p.reset()
+
     clock.tick(60)
     display.update()
