@@ -50,8 +50,8 @@ r_p = Player('raketka.png', 650, 200, 50, 150, 4)
 
 
 
-win = font1.render('You win!', True, (100, 255, 100))
-lose = font1.render('You lose!', True, (255, 100, 100))
+winl = font1.render('Win left player!', True, (100, 255, 100))
+winr = font1.render('Win right player!', True, (100, 255, 100))
 
 finich = False
 
@@ -70,31 +70,39 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
-        '''if e.type == MOUSEBUTTONDOWN and e.button == 1:
-            if num_fire < 5 and realding == False:
-                num_fire += 1
-                mause.fire()
-            if num_fire >= 5 and realding == False:
-                last_time = timer()
-                realding = True'''
-    m_p.rect.x += speed_x
-    m_p.rect.y += speed_y
+    if finich != True:
+            
+        m_p.rect.x += speed_x
+        m_p.rect.y += speed_y
 
-    if m_p.rect.y < 0 or m_p.rect.y > 470:
-        speed_y *= -1
-    if sprite.collide_rect(l_p, m_p) or sprite.collide_rect(r_p, m_p):
-        speed_x *= -1
-        speed_y *= -1
+        if m_p.rect.y < 0 or m_p.rect.y > 470:
+            speed_y *= -1
+        if sprite.collide_rect(l_p, m_p) or sprite.collide_rect(r_p, m_p):
+            speed_x *= -1
+            speed_y *= -1
+        
+        
+      
+
+        my_win.blit(fon, (0, 0))
+        l_p.updateL()
+        r_p.updateR()
+        l_p.reset()
+        r_p.reset()
+        m_p.update()
+        m_p.reset()
+
+
+        if m_p.rect.x > 700:
+            my_win.blit(winl, (150, 250))
+            finich = True
+
+        if m_p.rect.x < 0:
+            my_win.blit(winr, (150, 250))
+            finich = True
     
-
-
-    my_win.blit(fon, (0, 0))
-    l_p.updateL()
-    r_p.updateR()
-    l_p.reset()
-    r_p.reset()
-    m_p.update()
-    m_p.reset()
 
     clock.tick(60)
     display.update()
+
+display.update()
